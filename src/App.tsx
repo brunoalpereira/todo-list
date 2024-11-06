@@ -1,34 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
+import { useState } from 'react'
+import styles from './App.module.css'
+import Header from './components/Header'
+import './App.css'
+import { EmptyTaskCard } from './components/EmptyTaskCard'
+import Task from './components/Task'
+import TaskListHeader from './components/TaskListHeader'
+import InsertTaskInput from './components/InsertTaskInput'
+import InsertTaskButton from './components/InsertTaskButton'
+
+export interface Task {
+  id: number
+  text: string
+  isChecked: boolean
+}
 function App() {
-  const [count, setCount] = useState(0)
+
+
+
+  const [tasks, setTasks] = useState<Task[]>([])
+  const handleAddTask = () => {
+   
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <main>
+      <Header>
+      </Header>
+
+      <div className={styles.insertContainer}>
+
+        <InsertTaskInput>
+        </InsertTaskInput>
+        <InsertTaskButton >
+
+        </InsertTaskButton>
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      <TaskListHeader>
+
+      </TaskListHeader>
+
+      {tasks.length > 0 ? (
+        <div>
+          {tasks.map((task) => (
+            <Task
+
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyTaskCard />
+      )}
+
+
+    </main>
   )
 }
 
