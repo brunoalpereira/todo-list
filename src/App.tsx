@@ -9,7 +9,7 @@ import TaskListHeader from './components/TaskListHeader'
 import InsertTaskInput from './components/InsertTaskInput'
 import InsertTaskButton from './components/InsertTaskButton'
 
-export interface Task {
+export interface TaskInterface {
   id: number
   text: string
   isChecked: boolean
@@ -18,9 +18,23 @@ function App() {
 
 
 
-  const [tasks, setTasks] = useState<Task[]>([])
+  const [tasks, setTasks] = useState<TaskInterface[]>([])
+  const [input, setInputValue] = useState('')
+
+
   const handleAddTask = () => {
+
+
+    if(!input) {return}
    
+    const newTask : TaskInterface = {
+      id: 1,
+      text:input,
+      isChecked: false
+
+    }
+    setTasks((state) => [...state, newTask])
+    setInputValue('')
   };
 
   return (
@@ -30,11 +44,12 @@ function App() {
 
       <div className={styles.insertContainer}>
 
-        <InsertTaskInput>
-        </InsertTaskInput>
-        <InsertTaskButton >
+        <InsertTaskInput
+          onChange={(e) => setInputValue(e.target.value)}
+          value={input}
+        />
+        <InsertTaskButton onClick = {handleAddTask}/>
 
-        </InsertTaskButton>
 
       </div>
 
@@ -45,8 +60,7 @@ function App() {
       {tasks.length > 0 ? (
         <div>
           {tasks.map((task) => (
-            <Task
-
+            <Task data={task}
             />
           ))}
         </div>

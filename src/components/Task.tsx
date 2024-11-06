@@ -1,6 +1,12 @@
 import { Check, Trash } from "phosphor-react"
 import styles from './Task.module.css'
-function Task(props) {
+import { TaskInterface } from "../App"
+
+interface props {
+    data: TaskInterface
+}
+
+function Task(props:props) {
 
     return (
         <div className={styles.container}>
@@ -13,7 +19,7 @@ function Task(props) {
                     </span>
 
                     <p className={`${styles.paragraph} `}>
-                       {props.content}
+                       {props.data.text}
                     </p>
                 </label>
             </div>
