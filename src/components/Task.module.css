@@ -8,6 +8,7 @@
   
     padding: 1rem;
     border-radius: 8px;
+    margin-top: 1rem;
   
     background-color: var(--gray500);
     border: 1px solid var(--gray400);
@@ -62,7 +63,7 @@
     font-size: 0.875rem;
     line-height: 140%;
     user-select: none;
-  
+    color: var(--gray100);
     transition: 0.2s all;
   }
   
