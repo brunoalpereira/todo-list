@@ -15,60 +15,76 @@ export interface TaskInterface {
   isChecked: boolean
 }
 function App() {
-
-
-
   const [tasks, setTasks] = useState<TaskInterface[]>([])
   const [input, setInputValue] = useState('')
 
+  const checkedTasksCounter = tasks.reduce((prevValue, currentTask) => {
+    if (currentTask.isChecked) {
+      return prevValue + 1
+    }
+
+    return prevValue
+  }, 0)
 
   const handleAddTask = () => {
+    if (!input) { return }
 
-
-    if(!input) {return}
-   
-    const newTask : TaskInterface = {
-      id: 1,
-      text:input,
+    const newTask: TaskInterface = {
+      id: new Date().getTime(),
+      text: input,
       isChecked: false
-
     }
     setTasks((state) => [...state, newTask])
     setInputValue('')
   };
 
+  function handleRemoveTask(id: number) {
+    const filteredTasks = tasks.filter((task) => task.id !== id)
+    if (!confirm('Deseja mesmo apagar essa tarefa?')) {
+      return
+    }
+    setTasks(filteredTasks)
+  }
+
+  function handleToggleTask({ id, value }: { id: number; value: boolean }) {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, isChecked: value }
+      }
+      return { ...task }
+    })
+    setTasks(updatedTasks)
+  }
+
   return (
     <main>
       <Header>
       </Header>
-
       <div className={styles.insertContainer}>
-
         <InsertTaskInput
           onChange={(e) => setInputValue(e.target.value)}
           value={input}
         />
-        <InsertTaskButton onClick = {handleAddTask}/>
-
-
+        <InsertTaskButton onClick={handleAddTask} />
       </div>
-
-      <TaskListHeader>
-
-      </TaskListHeader>
-
+      <TaskListHeader
+        totalTasks={tasks.length}
+        totalCheckedTasks={checkedTasksCounter}
+      />
       {tasks.length > 0 ? (
         <div>
           {tasks.map((task) => (
-            <Task data={task}
+            <Task
+              key={task.id}
+              data={task}
+              removeTask={handleRemoveTask}
+              toggleTaskStatus={handleToggleTask}
             />
           ))}
         </div>
       ) : (
         <EmptyTaskCard />
       )}
-
-
     </main>
   )
 }
